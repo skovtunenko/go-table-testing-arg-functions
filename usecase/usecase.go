@@ -5,21 +5,27 @@ import (
 	"go-table-testing-arg-functions/model"
 )
 
-type userService interface {
+//go:generate mockgen -destination=../mocks/usecase_mock.go -package=mock_usecases . UserService
+
+// UserService is a User service.
+type UserService interface {
 	Get(id model.UserID) (model.User, error)
 }
 
-type productService interface {
+//go:generate mockgen -destination=../mocks/usecase_mock.go -package=mock_usecases . ProductService
+
+// ProductService is a Product service.
+type ProductService interface {
 	GetProducts(userName string) ([]model.Product, error)
 }
 
 // ProductsForUser is a "get products for a user" use-case.
 type ProductsForUser struct {
-	userSvc    userService
-	productSvc productService
+	userSvc    UserService
+	productSvc ProductService
 }
 
-func NewProductsForUser(userSvc userService, productSvc productService) *ProductsForUser {
+func NewProductsForUser(userSvc UserService, productSvc ProductService) *ProductsForUser {
 	return &ProductsForUser{
 		userSvc:    userSvc,
 		productSvc: productSvc,
