@@ -28,6 +28,7 @@ func TestProductsForUser_Get(t *testing.T) {
 			name: "empty_userID",
 			fieldsFunc: func(t *testing.T, ctrl *gomock.Controller) fields {
 				t.Helper()
+
 				return fields{
 					userSvc:    mock_usecases.NewMockUserService(ctrl),
 					productSvc: mock_usecases.NewMockProductService(ctrl),
@@ -43,6 +44,7 @@ func TestProductsForUser_Get(t *testing.T) {
 			name: "user_service_fail_to_find_user_by_ID",
 			fieldsFunc: func(t *testing.T, ctrl *gomock.Controller) fields {
 				t.Helper()
+
 				userSvc := mock_usecases.NewMockUserService(ctrl)
 				userSvc.EXPECT().Get(gomock.Any()).Return(model.User{}, errors.New("unable to find a user")).Times(1)
 				return fields{
@@ -60,6 +62,7 @@ func TestProductsForUser_Get(t *testing.T) {
 			name: "unable_to_get_products_for_a_user",
 			fieldsFunc: func(t *testing.T, ctrl *gomock.Controller) fields {
 				t.Helper()
+
 				userSvc := mock_usecases.NewMockUserService(ctrl)
 				userSvc.EXPECT().Get(gomock.Any()).Return(model.User{
 					ID:   "some-user-ID",
@@ -77,6 +80,51 @@ func TestProductsForUser_Get(t *testing.T) {
 			},
 			want:    nil,
 			wantErr: true,
+		},
+		{
+			name: "successfully_get__products_for_a_user",
+			fieldsFunc: func(t *testing.T, ctrl *gomock.Controller) fields {
+				t.Helper()
+
+				const userID = "some-user-ID"
+
+				userSvc := mock_usecases.NewMockUserService(ctrl)
+				userSvc.EXPECT().Get(gomock.Any()).Return(model.User{
+					ID:   userID,
+					Name: "name",
+				}, nil).Times(1)
+				productSvc := mock_usecases.NewMockProductService(ctrl)
+				productSvc.EXPECT().GetProducts(gomock.Any()).Return([]model.Product{
+					{
+						ID:    "Product 1",
+						Owner: userID,
+						Name:  "Good Product",
+					}, {
+						ID:    "Product 2",
+						Owner: userID,
+						Name:  "Another good product",
+					},
+				}, nil).Times(1)
+				return fields{
+					userSvc:    userSvc,
+					productSvc: productSvc,
+				}
+			},
+			args: args{
+				userID: "some-user-ID",
+			},
+			want: []model.Product{
+				{
+					ID:    "Product 1",
+					Owner: "some-user-ID",
+					Name:  "Good Product",
+				}, {
+					ID:    "Product 2",
+					Owner: "some-user-ID",
+					Name:  "Another good product",
+				},
+			},
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
