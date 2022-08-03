@@ -2,7 +2,7 @@ package usecase
 
 import (
 	"github.com/golang/mock/gomock"
-	"github.com/matryer/is"
+	islib "github.com/matryer/is"
 	"github.com/pkg/errors"
 	mock_usecases "go-table-testing-arg-functions/mocks"
 	"go-table-testing-arg-functions/model"
@@ -82,7 +82,7 @@ func TestProductsForUser_Get(t *testing.T) {
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
-			is := is.New(t)
+			is := islib.New(t)
 			ctrl := gomock.NewController(t)
 
 			// get prepared fields data for the current test:
