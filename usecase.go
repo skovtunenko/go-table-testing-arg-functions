@@ -33,6 +33,9 @@ func NewProductsForUser(userSvc UserService, productSvc ProductService) *Product
 
 // Get gets products based on username.
 func (pu *ProductsForUser) Get(userID model.UserID) ([]model.Product, error) {
+	if userID == "" {
+		return nil, errors.New("user ID can't be empty")
+	}
 	user, err := pu.userSvc.Get(userID)
 	if err != nil {
 		return nil, errors.WithMessagef(err, "user with id=%q", userID)

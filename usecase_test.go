@@ -1,38 +1,59 @@
 package usecase
 
 import (
+	"github.com/golang/mock/gomock"
 	"github.com/matryer/is"
+	mock_usecases "go-table-testing-arg-functions/mocks"
+	"go-table-testing-arg-functions/model"
 	"testing"
 )
 
-func TestNewProductsForUser(t *testing.T) {
-	type args struct {
+func TestProductsForUser_Get(t *testing.T) {
+	type fields struct {
 		userSvc    UserService
 		productSvc ProductService
 	}
+	type args struct {
+		userID model.UserID
+	}
 	tests := []struct {
-		name string
-		args args
-		want *ProductsForUser
+		name       string
+		fieldsFunc func(t *testing.T, ctrl *gomock.Controller) fields
+		args       args
+		want       []model.Product
+		wantErr    bool
 	}{
 		{
-			name: "all_dependencies_are_nil",
+			name: "empty_userID",
+			fieldsFunc: func(t *testing.T, ctrl *gomock.Controller) fields {
+				t.Helper()
+				return fields{
+					userSvc:    mock_usecases.NewMockUserService(ctrl),
+					productSvc: mock_usecases.NewMockProductService(ctrl),
+				}
+			},
 			args: args{
-				userSvc:    nil,
-				productSvc: nil,
+				userID: "",
 			},
-			want: &ProductsForUser{
-				userSvc:    nil,
-				productSvc: nil,
-			},
+			want:    nil,
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			is := is.New(t)
-			got := NewProductsForUser(tt.args.userSvc, tt.args.productSvc)
-			is.Equal(got, tt.want)
+			ctrl := gomock.NewController(t)
+
+			// get prepared fiels data for the current test:
+			fields := tt.fieldsFunc(t, ctrl)
+
+			pu := NewProductsForUser(fields.userSvc, fields.productSvc)
+			got, err := pu.Get(tt.args.userID)
+			if !tt.wantErr {
+				is.NoErr(err)
+			}
+			is.Equal(tt.want, got)
 		})
 	}
 }
