@@ -10,6 +10,10 @@ test: ## Run tests for all packages (test cache is disabled)
 code-quality: ## Print code smells using Golangci-lint
 	golangci-lint --timeout 1m --out-format tab run ./...
 
+.PHONY: generate
+generate: ## Generate mock files
+	go generate ./...
+
 .PHONY: install-tools
 install-tools: ## Install dependencies locally
 	@echo "Installing tools locally..."
