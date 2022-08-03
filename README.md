@@ -120,3 +120,104 @@ fieldsFunc: func(t *testing.T, ctrl *gomock.Controller) fields {
 ```
 
 **NOTE:** Do not forget to use `t.Helper()` function in the beginning of the "factory".
+
+----
+
+## 4. 🕶️ Useful IntelliJ Live Templates
+
+### 📖 mtest
+
+**Description:** Mocked table-driven Test with gomock
+
+**Note:** assumed testing library: [GoMock](https://github.com/golang/mock)
+
+![](./img/mtest.png "mtest live template")
+
+```go
+func Test$NAME$(t *testing.T) {
+	type fields struct {
+	}
+	type args struct {
+	}
+	tests := []struct {
+		name          string
+		fieldsFactory func(t *testing.T, ctrl *gomock.Controller) fields
+		argsFactory   func(t *testing.T, ctrl *gomock.Controller) args
+		args          args
+	}{
+        {
+			name: "good",
+			fieldsFactory: func(t *testing.T, ctrl *gomock.Controller) fields {
+				t.Helper()
+				
+				return fields{}
+			},
+			argsFactory: func(t *testing.T, ctrl *gomock.Controller) args {
+				t.Helper()
+				
+				return args{}
+			},
+			args: args{},
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			ctrl := gomock.NewController(t)
+
+			fields := tt.fieldsFactory(t, ctrl)
+			args := tt.argsFactory(t, ctrl)
+
+			fields = fields
+			args = args$END$
+		})
+	}
+}
+```
+
+### 📖 stest
+
+**Description:** Test with subtests
+
+**Note:** assumed testing library: [Testify](https://github.com/stretchr/testify)
+
+![](./img/stest.png "stest live template")
+
+```go
+func Test$NAME$(t *testing.T) {
+    t.Run("good", func(t *testing.T) {
+        r := require.New(t)
+
+        r = r$END$
+    })
+}
+```
+
+### 📖 erris
+
+**Description:** If error IS()
+
+```go
+if errors.Is($ERR$, $TARTGET_ERR$) {
+    $END$
+}
+```
+
+### 📖 erras
+
+**Description:** If error AS()
+
+```go
+var $TARTGET_ERR$ *$TARGET_ERR_TYPE$
+if errors.Is($ERR$, &$TARTGET_ERR$) {
+    $END$
+}
+```
+
+### 📖 set
+
+**Description:** Set type
+
+```go
+map[$KEY_TYPE$]struct{}
+```
