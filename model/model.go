@@ -12,6 +12,8 @@ type Product struct {
 	Name  string
 }
 
+var _ fmt.Stringer = Product{}
+
 func (p Product) String() string {
 	return fmt.Sprintf("ProductID=%q, Name=%q, Owner=%q", p.ID, p.Name, p.Owner)
 }
