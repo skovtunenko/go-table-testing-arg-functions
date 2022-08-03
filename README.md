@@ -4,7 +4,7 @@ Example on how to use fields/args generators in table-tests.
 
 # Generic Pattern to build table-driven tests with args/field "factories":
 
-## 1. Generate test stub 
+## 1. 💡 Generate test stub 
 
 Generate table-driven test stub first, like this:
 ```go
@@ -60,7 +60,7 @@ func TestProductsForUser_Get(t *testing.T) {
 
 ----
 
-## 2. Refactor code 
+## 2. ⚙️ Refactor code 
 
 Change the `args` and/or `fields` parameter to be a function that returns filled `args`/`fields` respectively:
 ```go
@@ -93,7 +93,7 @@ func(t *testing.T, ctrl *gomock.Controller) fields
 
 ----
 
-## 3. Benefits 
+## 3. 🎯 Benefits 
 
 The benefits of using this "factory" approach to prepare all the fields inside `args`/`fields` are:
 
