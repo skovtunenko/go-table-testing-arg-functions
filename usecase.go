@@ -35,7 +35,7 @@ func NewProductsForUser(userSvc UserService, productSvc ProductService) *Product
 func (pu *ProductsForUser) Get(userID model.UserID) ([]model.Product, error) {
 	user, err := pu.userSvc.Get(userID)
 	if err != nil {
-		return nil, errors.WithMessagef(err, "no user with id=%q", userID)
+		return nil, errors.WithMessagef(err, "user with id=%q", userID)
 	}
 	products, err := pu.productSvc.GetProducts(user.Name)
 	if err != nil {
