@@ -25,6 +25,7 @@ type ProductsForUser struct {
 	productSvc ProductService
 }
 
+// NewProductsForUser creates new ProductsForUser use-case.
 func NewProductsForUser(userSvc UserService, productSvc ProductService) *ProductsForUser {
 	return &ProductsForUser{
 		userSvc:    userSvc,
@@ -32,6 +33,7 @@ func NewProductsForUser(userSvc UserService, productSvc ProductService) *Product
 	}
 }
 
+// Get gets products based on username.
 func (pu *ProductsForUser) Get(userID model.UserID) ([]model.Product, error) {
 	user, err := pu.userSvc.Get(userID)
 	if err != nil {
