@@ -1,4 +1,4 @@
-package go_table_testing_arg_functions
+package usecase
 
 import (
 	"github.com/matryer/is"

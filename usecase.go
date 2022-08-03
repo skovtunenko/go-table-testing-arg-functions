@@ -1,18 +1,16 @@
-package go_table_testing_arg_functions
+package usecase
 
 import (
 	"github.com/pkg/errors"
 	"go-table-testing-arg-functions/model"
 )
 
-//go:generate mockgen -destination=./mocks/usecase_mock.go -package=mock_usecases . UserService
+//go:generate mockgen -destination=./mocks/usecase_mock.go -package=mock_usecases . UserService,ProductService
 
 // UserService is a User service.
 type UserService interface {
 	Get(id model.UserID) (model.User, error)
 }
-
-//go:generate mockgen -destination=./mocks/usecase_mock.go -package=mock_usecases . ProductService
 
 // ProductService is a Product service.
 type ProductService interface {
