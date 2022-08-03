@@ -45,7 +45,7 @@ func TestProductsForUser_Get(t *testing.T) {
 			is := is.New(t)
 			ctrl := gomock.NewController(t)
 
-			// get prepared fiels data for the current test:
+			// get prepared fields data for the current test:
 			fields := tt.fieldsFunc(t, ctrl)
 
 			pu := NewProductsForUser(fields.userSvc, fields.productSvc)
