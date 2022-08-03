@@ -4,13 +4,19 @@ import "fmt"
 
 type UserID string
 
+type UserName string
+
 type ProductID string
+
+type ProductName string
 
 type Product struct {
 	ID    ProductID
-	Owner string
-	Name  string
+	Owner UserName
+	Name  ProductName
 }
+
+var _ fmt.Stringer = Product{}
 
 func (p Product) String() string {
 	return fmt.Sprintf("ProductID=%q, Name=%q, Owner=%q", p.ID, p.Name, p.Owner)
@@ -18,5 +24,5 @@ func (p Product) String() string {
 
 type User struct {
 	ID   UserID
-	Name string
+	Name UserName
 }
