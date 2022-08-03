@@ -14,7 +14,7 @@ type UserService interface {
 
 // ProductService is a Product service.
 type ProductService interface {
-	GetProducts(userName string) ([]model.Product, error)
+	GetProducts(userName model.UserName) ([]model.Product, error)
 }
 
 // ProductsForUser is a "get products for a user" use-case.

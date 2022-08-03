@@ -73,7 +73,7 @@ func (m *MockProductService) EXPECT() *MockProductServiceMockRecorder {
 }
 
 // GetProducts mocks base method.
-func (m *MockProductService) GetProducts(arg0 string) ([]model.Product, error) {
+func (m *MockProductService) GetProducts(arg0 model.UserName) ([]model.Product, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetProducts", arg0)
 	ret0, _ := ret[0].([]model.Product)
