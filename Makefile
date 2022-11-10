@@ -17,7 +17,8 @@ generate: ## Generate mock files
 .PHONY: install-tools
 install-tools: ## Install dependencies locally
 	@echo "Installing tools locally..."
-	@GO111MODULE=on go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.47.3
+	@go install github.com/golang/mock/mockgen@v1.6.0
+	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.47.3
 	@echo "Done."
 
 help: ## Display this help screen
